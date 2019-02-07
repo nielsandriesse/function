@@ -52,7 +52,7 @@ extension FNFunction {
                 case .minimum: if try evaluate(for: p_u) < evaluate(for: p_n) { break loop }
                 case .maximum: if try evaluate(for: p_u) > evaluate(for: p_n) { break loop }
                 }
-                h = h/2
+                h = h / 2
             }
             // Assign update to p_n
             p_n = p_u
