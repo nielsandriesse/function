@@ -1,49 +1,49 @@
 import Darwin
 
 final class FNUnaryOperation : FNExpression {
-	let kind: Kind
-	let operand: FNExpression
+    let kind: Kind
+    let operand: FNExpression
 
-	// MARK: Tree Node Conformance
-	override var children: [FNExpression] { return [ operand ] }
+    // MARK: Tree Node Conformance
+    override var children: [FNExpression] { return [ operand ] }
 
-	// MARK: Initialization
-	init(kind: Kind, operand: FNExpression) {
-		(self.kind, self.operand) = (kind, operand)
-	}
+    // MARK: Initialization
+    init(kind: Kind, operand: FNExpression) {
+        (self.kind, self.operand) = (kind, operand)
+    }
 
-	// MARK: Evaluation
-	override func evaluate(for values: [FNVariable:Double]) throws -> Double {
-		let operandValue = try operand.evaluate(for: values)
-		switch kind {
-		case .negation: return -operandValue
-		case .sine: return sin(operandValue)
-		case .cosine: return cos(operandValue)
-		case .tangent:
-			let result = tan(operandValue)
-			if result.isNaN { throw FNError.trigonometricDomain }
-			return result
-		case .arcSine:
-			guard operandValue >= -1 && operandValue <= 1 else { throw FNError.trigonometricDomain }
-			return asin(operandValue)
-		case .arcCosine:
-			guard operandValue >= -1 && operandValue <= 1 else { throw FNError.trigonometricDomain }
-			return acos(operandValue)
-		case .arcTangent:
-			let result = atan(operandValue)
-			if result.isNaN { throw FNError.trigonometricDomain }
-			return result
-		case .naturalLogarithm:
-			guard operandValue > 0 else { throw FNError.logarithmicDomain }
-			return log(operandValue) / log(Darwin.M_E)
-		case .squareRoot:
-			guard operandValue >= 0 else { throw FNError.negativeRoot }
-			return sqrt(operandValue)
-		}
-	}
+    // MARK: Evaluation
+    override func evaluate(for values: [FNVariable:Double]) throws -> Double {
+        let operandValue = try operand.evaluate(for: values)
+        switch kind {
+        case .negation: return -operandValue
+        case .sine: return sin(operandValue)
+        case .cosine: return cos(operandValue)
+        case .tangent:
+            let result = tan(operandValue)
+            if result.isNaN { throw FNError.trigonometricDomain }
+            return result
+        case .arcSine:
+            guard operandValue >= -1 && operandValue <= 1 else { throw FNError.trigonometricDomain }
+            return asin(operandValue)
+        case .arcCosine:
+            guard operandValue >= -1 && operandValue <= 1 else { throw FNError.trigonometricDomain }
+            return acos(operandValue)
+        case .arcTangent:
+            let result = atan(operandValue)
+            if result.isNaN { throw FNError.trigonometricDomain }
+            return result
+        case .naturalLogarithm:
+            guard operandValue > 0 else { throw FNError.logarithmicDomain }
+            return log(operandValue) / log(Darwin.M_E)
+        case .squareRoot:
+            guard operandValue >= 0 else { throw FNError.negativeRoot }
+            return sqrt(operandValue)
+        }
+    }
 
-	// MARK: General
-	override var hashValue: Int { return kind.hashValue ^ operand.hashValue }
+    // MARK: General
+    override var hashValue: Int { return kind.hashValue ^ operand.hashValue }
 
     override func isEqual(to other: FNExpression) -> Bool {
         guard let other = other as? FNUnaryOperation else { return false }
