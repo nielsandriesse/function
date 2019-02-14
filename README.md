@@ -1,5 +1,3 @@
-## Function
-
 A framework for representing and performing numerical operations on mathematical functions in Swift.
 
 Creating a function:
@@ -40,7 +38,3 @@ let function = FNFunction(fromString: "sin(x) * cos(x)")!
 let root = try function.approximateRoot(startingWithInitialGuess: 1.25, accuracy: 1e-4)!
 print(root)
 ```
-
-## Notes
-
-Not yet on CocoaPods -- just copy & paste it into your project.
