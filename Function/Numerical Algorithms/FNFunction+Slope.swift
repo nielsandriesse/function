@@ -27,11 +27,11 @@ extension FNFunction {
         guard variables.count == 1 else { throw FNError.multivariateFunction }
         // Calculate f(x)
         let y = try evaluate(for: [ variable : x ])
-        // Determine x1 and x2
+        // Determine x_1 and x_2
         let ε = max(x.nextUp - x, y.nextUp - y)
         let h = sqrt(ε)
         var (x_1, x_2) = (x - h, x + h)
-        // Calculate f(x1) and f(x2)
+        // Calculate f(x_1) and f(x_2)
         var y_1: Double! = try? evaluate(for: [ variable : x_1 ])
         var y_2: Double! = try? evaluate(for: [ variable : x_2 ])
         // Check the results. If both points failed to evaluate, we can't proceed. If just one point failed
